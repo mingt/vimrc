@@ -65,6 +65,12 @@ nmap <leader>w :w!<cr>
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
+" ahming
+imap jj <esc>
+imap JJ <esc>
+set number
+set tags=tags;/
+set pastetoggle=<f9>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
