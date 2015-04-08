@@ -1,3 +1,17 @@
+    # My favorite mods:
+    
+    +imap jj <esc>
+    +imap JJ <esc>
+    +set number
+    +set tags=tags;/
+    +set pastetoggle=<f9>
+    
+    And close mapping auto complete of \(, \", \', \[ against possible
+    pasting issue when using secureCRT on windows.
+    
+    Map <F4> for toggle NERDTree, default to show hidden files, default to open NERDTree 
+    even if open Vim without file specified.
+
 # The Ultimate vimrc
 
 Over the last 8 years I have used and tweaked Vim. This is my Ultimate vimrc.
