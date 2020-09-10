@@ -39,12 +39,16 @@ looking at the [vim-snippets][vim-snippets] repository.
 * Using [Vundle][vundle], add the following to your `vimrc` then run
   `:PluginInstall`
 
-        Plugin "MarcWeber/vim-addon-mw-utils"
-        Plugin "tomtom/tlib_vim"
-        Plugin "garbas/vim-snipmate"
+        Plugin 'MarcWeber/vim-addon-mw-utils'
+        Plugin 'tomtom/tlib_vim'
+        Plugin 'garbas/vim-snipmate'
 
         " Optional:
-        Plugin "honza/vim-snippets"
+        Plugin 'honza/vim-snippets'
+
+## Using SnipMate ##
+Press <tab> and try :SnipMateOpenSnippetFiles for starting.
+Also see doc/SnipMate.txt to learn all SnipMate
 
 ## FAQ ##
 
@@ -67,7 +71,7 @@ Try all of the following:
   path of the snippet file or the scope explicitly loaded.
 
 * Check if any snippets from your snippets file are available. This can be done
-  with the "show available snips` map, by default bound to `<C-R><Tab>` in
+  with the "show available snips" map, by default bound to `<C-R><Tab>` in
   insert mode.
 
 If all of the above check out, please open an issue stating your Vim version,
@@ -87,7 +91,7 @@ languages. For this we provide two options: scope aliases and the
 `:SnipMateLoadScope` command. Scope aliases simply say "whenever this scope is
 loaded, also load this other scope:
 
-    let g:snipMate = {}
+    let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
     let g:snipMate.scope_aliases = {}
     let g:snipMate.scope_aliases['ruby'] = 'ruby,rails'
 
@@ -96,21 +100,39 @@ will load the `ruby-rails` scope whenever the `ruby` scope is active. The
 buffer. The [vim-rails](https://github.com/tpope/vim-rails) plugin automatically
 does `:SnipMateLoadScope rails` when editing a Rails project for example.
 
+> What are the snippet parser versions and what's the difference between them?
+
+Originally SnipMate used regex to parse a snippet. Determining where stops were,
+what the placeholders were, where mirrors were, etc. were all done with regex.
+Needless to say this was a little fragile. When the time came for a rewritten
+parser, some incompatibilities were a little necessary. Rather than break
+everyone's snippets everywhere, we provided both the new (version 1) and the old
+(version 0) and let the user choose between them.
+
+Version 0 is considered legacy and not a lot of effort is going to go into
+improving or even maintaining it. Version 1 is the future, and one can expect
+new features to only exist for version 1 users. A full list of differences can
+be found in the docs at `:h SnipMate-parser-versions`.
+
 ## Release Notes ##
 
-### Master ###
+### 0.89 - 2016-05-29 ###
+
+* Various regex updates to legacy parser
+* Addition of double bang syntax to completely remove a snippet from lookup
+* Group various SnipMate autocommands
+* Support setting 'shiftwidth' to 0
+* Parser now operates linewise, adding some flexibility
+* Mirror substitutions are more literal
+* Mirror length is calculated correctly when substitutions occur
+
+### 0.88 - 2015-04-04 ###
 
 * Implement simple caching
 * Remove expansion guards
-* Fix bug with mirrors in the first column
-* Fix bug with tabs in indents ([#143][143])
-* Fix bug with mirrors in placeholders
-* Fix reading single snippet files
-* Fix the use of the visual map at the end of a line
 * Add `:SnipMateLoadScope` command and buffer-local scope aliases
 * Load `<scope>_*.snippets` files
-* Indent visual placeholder expansions and remove extraneous lines ([#177][177]
-  and [#178][178])
+* Use CursorMoved autocmd events entirely
 
 * The nested branch has been merged
     * A new snippet parser has been added. The g:snipmate.version as well as
@@ -126,6 +148,16 @@ does `:SnipMateLoadScope rails` when editing a Rails project for example.
     * Override behavior can be enabled on a per-snippet basis with a bang (!) in
       the snippet file
     * Otherwise, SnipMate tries to preserve all snippets loaded
+
+* Fix bug with mirrors in the first column
+* Fix bug with tabs in indents ([#143][143])
+* Fix bug with mirrors in placeholders
+* Fix reading single snippet files
+* Fix the use of the visual map at the end of a line
+* Fix expansion of stops containing only the zero tab stop
+* Remove select mode mappings
+* Indent visual placeholder expansions and remove extraneous lines ([#177][177]
+  and [#178][178])
 
 ### 0.87 - 2014-01-04 ###
 
